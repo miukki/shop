@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <script>
+/*
+function func(){
+  alert(arguments[0]+arguments[1]+arguments[2]);
+};
+func(1,2,6);
+
+
+ function sum(){
+  var s = 0;
+  for(var i=0; i<arguments.length; i++) s += arguments[i]
+  return s
+}
+
+var N = sum(1,2,3);
+alert(N);
+
+var args = Array.prototype.slice.call(arguments)
+//!
+
+
+function func() {
+   arguments.callee.called++
+}
+func.called = 0;
+func()
+func()
+func()
+alert(func.called) 
+// типа сколько раз отрабатывается функция?
+
+
+function sayHello(name) {
+    alert("Hello "+name + "!!!")
+}
+sayHello('Ann');
+
+//замыкание
+
+function addHideHandler(sourceId, targetId) {
+	//  [[scope]] со свойствами sourceId, targetId
+
+	// свойство sourceNode
+	var sourceNode = document.getElementById(sourceId)
+
+	// свойство handler
+	function handler() {
+		var targetNode = document.getElementById(targetId)
+		targetNode.style.display = 'none'
+	}
+
+	sourceNode.onclick = handler;
+
+}
+
+addHideHandler("dialog", "info");
+
+
+function makeShout() { 
+    var phrase = 'go'  
+
+    var shout = function() { 
+        alert(phrase) 
+    }
+    
+    phrase = 'ready'  
+
+    return shout
+}
+
+mirk = makeShout()
+// почему просто нельзя вызвать makeShout() ?
+mirk()
+
+a=6;
+alert(window.a);
+
+alert("Vasya".toUpperCase());
+
+var arr = new Array("my", "array");
+var pushed = arr.push("2","3");
+alert(arr.length);
+
+arr = [ "my", "array" ]
+alert(arr[0]) // "my" <- нумерация от нуля
+
+arr = [1, 2]
+arr.push(3,4,5,6,7,8,9)
+
+function sum(){
+	var s = 0;
+	for(var i=0; i<arr.length; i++) s+= arr[i]
+	return s;
+}
+alert(sum());
+
+
+obj = {   n: 1,  str: 'test' }
+
+alert(obj.n) // точка 
+alert(obj["str"])
+
+a = { }  // пустой объект
+console.log(a.something)  // undefined
+*/
+
+//ассоциативный массив
+
+
+function go() {        
+	var ol = document.getElementsByTagName('ol')[0]        
+	var hit = ol.removeChild(ol.firstChild)        
+	var kov = ol.removeChild(ol.firstChild)        
+	ol.appendChild(kov)        
+	ol.appendChild(hit)
+	
+	}
+	
+window.onload = function() { 
+	
+
+	
+	
+}
+
+
+   function submit() {
+         alert(document.documentElement)
+         alert(document.body)
+    }
+	
+	
+
+//обработчик события через свойство объекта
+
+
+
+    </script>
+
+
+</head>
+
+<style>
+.calc .inner input{margin-top:5px;margin-left:10px;background-color:#fff;}
+.calc{margin:20px 0;}
+</style>
+
+<body>
+
+<ol style="background-color:#ff0000;">
+<li>1</li>
+<li>2</li>
+</ol>
+
+<input type="submit" onclick="submit()" value="doc element">
+<input type="submit" onclick="alert(this.tagName)" value="tagname">
+
+
+<div class="calc">
+	<input id="view" value="" type="text">
+	<div class="inner">
+		<input class="calcItem" type="submit" value="7">
+		<input class="calcItem" type="submit" value="8">
+		<input class="calcItem" type="submit" value="9">
+	</div>
+	<div class="inner">
+		<input class="calcItem" type="submit" value="4">
+		<input class="calcItem" type="submit" value="5">
+		<input class="calcItem" type="submit" value="6">
+	</div>
+	<div class="inner">
+		<input class="calcItem" type="submit" value="1">
+		<input class="calcItem" type="submit" value="2">
+		<input class="calcItem" type="submit" value="3">
+	</div>
+	<div class="inner">
+		<input class="calcItem" type="submit" value="0">
+		<input class="calcItem" type="submit" value=".">
+		<input class="calcItem" type="submit" value="C">
+	</div>
+	<input type="submit" value="=" id="result">
+</div>
+
+
+<script>
+
+
+	console.log(typeof(document.getElementsByClassName('calcItem')));
+	obj = {};
+
+	console.log("asdf1234234");
+
+	//доступ к объкету из метода
+	function view(param) {
+		console.log(param);
+		//return;
+		var arg = document.getElementById('view').value
+		var v = arg + param;
+		console.log(v);
+		document.getElementById('view').value = v
+		if(true){}
+	}
+ 	for(var i=0; i<document.getElementsByClassName('calcItem').length; i++) {
+
+		var val = document.getElementsByClassName('calcItem')[i].value;
+		//obj{}
+		//obj["name" + i] = elem.value;
+		
+		console.log(val);
+		
+		document.getElementsByClassName('calcItem')[i].onclick = function(){
+			//console.log(val);
+			view(val);
+		}		
+		
+	}
+	
+	
+	/*
+	
+	for(var i=0; i<document.getElementsByClassName('calcItem').length; i++) {
+		(function() {
+			var elem1 = document.getElementsByClassName('calcItem')[i];
+
+			console.log(elem1);
+
+			elem1.onclick = function() {
+				view(elem1);
+			}
+		})();
+		
+	}
+	*/
+	// console.log(obj);
+
+
+	document.getElementById("result").onclick = function result(){
+		console.log("result")
+	}
+
+</script>
+
+</body>
+
+</html>
