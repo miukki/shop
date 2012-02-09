@@ -3,112 +3,6 @@
 <head>
 
   <script>
-/*
-function func(){
-  alert(arguments[0]+arguments[1]+arguments[2]);
-};
-func(1,2,6);
-
-
- function sum(){
-  var s = 0;
-  for(var i=0; i<arguments.length; i++) s += arguments[i]
-  return s
-}
-
-var N = sum(1,2,3);
-alert(N);
-
-var args = Array.prototype.slice.call(arguments)
-//!
-
-
-function func() {
-   arguments.callee.called++
-}
-func.called = 0;
-func()
-func()
-func()
-alert(func.called) 
-// типа сколько раз отрабатывается функция?
-
-
-function sayHello(name) {
-    alert("Hello "+name + "!!!")
-}
-sayHello('Ann');
-
-//замыкание
-
-function addHideHandler(sourceId, targetId) {
-	//  [[scope]] со свойствами sourceId, targetId
-
-	// свойство sourceNode
-	var sourceNode = document.getElementById(sourceId)
-
-	// свойство handler
-	function handler() {
-		var targetNode = document.getElementById(targetId)
-		targetNode.style.display = 'none'
-	}
-
-	sourceNode.onclick = handler;
-
-}
-
-addHideHandler("dialog", "info");
-
-
-function makeShout() { 
-    var phrase = 'go'  
-
-    var shout = function() { 
-        alert(phrase) 
-    }
-    
-    phrase = 'ready'  
-
-    return shout
-}
-
-mirk = makeShout()
-// почему просто нельзя вызвать makeShout() ?
-mirk()
-
-a=6;
-alert(window.a);
-
-alert("Vasya".toUpperCase());
-
-var arr = new Array("my", "array");
-var pushed = arr.push("2","3");
-alert(arr.length);
-
-arr = [ "my", "array" ]
-alert(arr[0]) // "my" <- нумерация от нуля
-
-arr = [1, 2]
-arr.push(3,4,5,6,7,8,9)
-
-function sum(){
-	var s = 0;
-	for(var i=0; i<arr.length; i++) s+= arr[i]
-	return s;
-}
-alert(sum());
-
-
-obj = {   n: 1,  str: 'test' }
-
-alert(obj.n) // точка 
-alert(obj["str"])
-
-a = { }  // пустой объект
-console.log(a.something)  // undefined
-*/
-
-//ассоциативный массив
 
 
 function go() {        
@@ -117,37 +11,21 @@ function go() {
 	var kov = ol.removeChild(ol.firstChild)        
 	ol.appendChild(kov)        
 	ol.appendChild(hit)
-	
-	}
-	
-window.onload = function() { 
-	
-
-	
-	
 }
 
-
-   function submit() {
-         alert(document.documentElement)
-         alert(document.body)
-    }
-	
-	
-
-//обработчик события через свойство объекта
-
+window.onload = function() {}
 
 
     </script>
 
+	<style>
+		.calc input{margin-top:5px;margin-left:10px;background-color:#fff;}
+		.calc{margin:20px 0;}
+		.calcItem{width:34px;}
+	</style>
 
 </head>
 
-<style>
-.calc .inner input{margin-top:5px;margin-left:10px;background-color:#fff;}
-.calc{margin:20px 0;}
-</style>
 
 <body>
 
@@ -162,27 +40,32 @@ window.onload = function() {
 
 <div class="calc">
 	<input id="view" value="" type="text">
-	<div class="inner">
+	<div>
 		<input class="calcItem" type="submit" value="7">
 		<input class="calcItem" type="submit" value="8">
 		<input class="calcItem" type="submit" value="9">
+		<input id="devide" class="calcItem" type="submit" value=":">
 	</div>
-	<div class="inner">
+	<div>
 		<input class="calcItem" type="submit" value="4">
 		<input class="calcItem" type="submit" value="5">
 		<input class="calcItem" type="submit" value="6">
+		<input id="multiply" class="calcItem" type="submit" value="x">
 	</div>
-	<div class="inner">
+	<div>
 		<input class="calcItem" type="submit" value="1">
 		<input class="calcItem" type="submit" value="2">
 		<input class="calcItem" type="submit" value="3">
+		<input id="minus" class="calcItem" type="submit" value="-">
 	</div>
-	<div class="inner">
+	<div>
 		<input class="calcItem" type="submit" value="0">
 		<input class="calcItem" type="submit" value=".">
-		<input class="calcItem" type="submit" value="C">
+		<input id="reset" class="calcItem" type="submit" value="C">
+		<input id="plus" class="calcItem" type="submit" value="+">
 	</div>
-	<input type="submit" value="=" id="result">
+
+	<input type="submit" class="calcItem" value="=" id="result">
 </div>
 
 
@@ -193,54 +76,114 @@ window.onload = function() {
 	obj = {};
 
 	console.log("asdf1234234");
-
+	var lastOp
+	var lastNum = '';
+	var currentNum = '';
 	//доступ к объкету из метода
-	function view(param) {
-		console.log(param);
-		//return;
-		var arg = document.getElementById('view').value
-		var v = arg + param;
-		console.log(v);
-		document.getElementById('view').value = v
-		if(true){}
+	var devide = document.getElementById('devide')
+	var multiply = document.getElementById('multiply')
+	var minus = document.getElementById('minus')
+	var plus = document.getElementById('plus')
+	var reset = document.getElementById('reset')
+	var result = document.getElementById("result")
+
+	var currentView = document.getElementById('view').value
+
+	function view(elem) {
+		var arg = elem.value
+		//console.log(arg);
+		
+		currentView = currentView + arg;
+		document.getElementById('view').value = currentView
 	}
+	
+	function numeric(elem){
+		var arg = elem.value;
+		currentNum = currentNum + arg;
+		currentNum = Number(currentNum);
+	}
+	
+	
  	for(var i=0; i<document.getElementsByClassName('calcItem').length; i++) {
-
+	(function(){
+		var args = document.getElementsByClassName('calcItem')[i];
 		var val = document.getElementsByClassName('calcItem')[i].value;
-		//obj{}
-		//obj["name" + i] = elem.value;
-		
+
 		console.log(val);
+		console.log('currentView: '+currentView);
+		console.log('lastOp: '+lastOp);
+		console.log('lastNum: '+lastNum);
+		console.log('currentNum: '+currentNum);
 		
-		document.getElementsByClassName('calcItem')[i].onclick = function(){
-			//console.log(val);
-			view(val);
-		}		
-		
-	}
-	
-	
-	/*
-	
-	for(var i=0; i<document.getElementsByClassName('calcItem').length; i++) {
-		(function() {
-			var elem1 = document.getElementsByClassName('calcItem')[i];
-
-			console.log(elem1);
-
-			elem1.onclick = function() {
-				view(elem1);
+		args.onclick = function()
+		{
+			if(args !== result && args !== reset && args !== devide && args !== multiply && args !== minus && args !== plus)
+			{
+				currentNum == '';
+				view(args);
+				numeric(args);
+				console.log('currentView: '+currentView);
+				console.log('lastOp: '+lastOp);
+				console.log('lastNum: '+lastNum);
+				console.log('currentNum: '+currentNum);
 			}
-		})();
-		
-	}
-	*/
-	// console.log(obj);
+			else if(args == result){
+				document.getElementById('view').value = 'result';
+				console.log('currentView: '+currentView);
+				lastNum = '';
+				currentNum = ''; 
+				currentView = '';
+			}
+			else
+			{
+				lastNum = currentNum;
+				currentNum = '';
+				if(args == reset)
+				{	
+					document.getElementById('view').value = '';
+					currentView = '';
+					lastNum = '';
+					currentNum = '';
+					
+				}else{
+					if(window.lastOp !== undefined){
+						console.log('schitat');
+						var equally = function equally(){
+							
+						}
+						
+						}
+
+					
+					if(lastNum == ''){
+					 document.getElementById('view').value = '';
+					}
+					else
+					{
+						lastOp = args.value;
+						view(args);
+						console.log('lastOp: '+lastOp);
+						console.log('currentView: '+currentView);
+						console.log('lastNum: '+lastNum);
+						console.log('currentNum: '+currentNum);
+					}
 
 
-	document.getElementById("result").onclick = function result(){
-		console.log("result")
+					
+				}
+				
+			}
+			
+				
+			
+		}		
+	})();
+
 	}
+
+
+
+	
 
 </script>
 
