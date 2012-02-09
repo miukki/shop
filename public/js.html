@@ -72,11 +72,62 @@ window.onload = function() {}
 <script>
 
 
-	console.log(typeof(document.getElementsByClassName('calcItem')));
-	obj = {};
+/* by Andrey
 
-	console.log("asdf1234234");
-	var lastOp
+var lastOp;
+var lastNum = '';
+var currentNum = '';
+//доступ к объкету из метода
+var devide = document.getElementById('devide');
+var multiply = document.getElementById('multiply');
+var minus = document.getElementById('minus');
+var plus = document.getElementById('plus');
+var reset = document.getElementById('reset');
+var result = document.getElementById('result');
+var currentView = document.getElementById('view').value;
+
+var _view = function (event) {
+	currentView = currentView + this.value;
+	document.getElementById('view').value = currentView;
+	return false;
+};
+
+var _numeric = function (event) {
+	var op = this.value;
+	var value = Number(currentView) || 0;
+	
+	if (currentNum && lastOp) {
+		switch (lastOp) {
+			case '+':
+				currentNum += value;
+				break;
+		};
+		currentView = currentNum;
+		document.getElementById('view').value = currentNum;
+	} else {
+		lastOp = op;
+		currentNum = value;
+		currentView = '';
+		document.getElementById('view').value = '';
+	};
+	return false;
+};
+
+var digits = document.getElementsByClassName('digit');
+for (var i in digits) {
+	digits[i].onclick = _view;
+};
+
+var operations = document.getElementsByClassName('op');
+for (i in operations) {
+	var o = operations[i];
+	o.onclick = _numeric;
+};
+
+by Andrey
+*/
+
+	var lastOp;
 	var lastNum = '';
 	var currentNum = '';
 	//доступ к объкету из метода
