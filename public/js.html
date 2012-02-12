@@ -111,6 +111,12 @@ function removeChildren(node) {
 		
 		if (lastView && lastOp) {
 			switch (lastOp) {
+				case ':':
+					currentView = Number(lastView) / Number(currentView);
+					break;
+				case 'x':
+					currentView = Number(lastView) * Number(currentView);
+					break;
 				case '+':
 					currentView = Number(lastView) + Number(currentView);
 					break;
@@ -125,8 +131,8 @@ function removeChildren(node) {
 					console.log('currentView '+currentView);
 					console.log('lastOp '+lastOp);
 					break;
-					
-							};
+				};
+
 				lastOp = op;
 				lastView = currentView;
 				currentView = '';
