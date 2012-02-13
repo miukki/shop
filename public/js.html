@@ -2,23 +2,81 @@
 <html>
 <head>
 
-  <script>
+<script type="text/javascript">
 
 
-function go() {        
-	var ol = document.getElementsByTagName('ol')[0]        
-	var hit = ol.removeChild(ol.firstChild)        
-	var kov = ol.removeChild(ol.firstChild)        
-	ol.appendChild(kov)        
-	ol.appendChild(hit)
+window.onload = function() {
+
+		var currentView = getId('view').value
+		var lastView = Number();
+		var lastOp = '';
+
+		
+		function getId(elem){
+			return document.getElementById(elem);
+		}
+
+
+		var _view = function (event) {
+			currentView = currentView + this.value;
+			getId('view').value = currentView;
+			return false;
+		};
+
+		var _numeric = function (event) {
+			var op = this.value;
+
+			if (lastView && lastOp) {
+				switch (lastOp) {
+					case ':':
+						currentView = Number(lastView) / Number(currentView);
+						break;
+					case 'x':
+						currentView = Number(lastView) * Number(currentView);
+						break;
+					case '+':
+						currentView = Number(lastView) + Number(currentView);
+						break;
+					case '-':
+						currentView = Number(lastView) - Number(currentView);
+						break;
+					case '=':
+						currentView = Number(lastView);
+						break;
+					};
+
+					lastOp = op;
+					lastView = currentView;
+					currentView = '';
+					getId('view').value = lastView;
+			} 
+
+			else {
+				lastView = currentView;
+				lastOp = op;
+				currentView = '';
+				getId('view').value = lastView;
+			};
+			return false;
+		};
+
+
+
+		var digits = document.getElementsByClassName('digit');
+		for (var i in digits) {
+			digits[i].onclick = _view;
+		};
+
+		var operations = document.getElementsByClassName('op');
+		for (i in operations) {
+			var op = operations[i];
+			op.onclick = _numeric;
+		};
+
+	
 }
 
-window.onload = function() {}
-
-
-
-
-    </script>
+</script>
 
 	<style>
 		.calc input{margin-top:5px;margin-left:10px;background-color:#fff;}
@@ -31,26 +89,7 @@ window.onload = function() {}
 
 
 <body>
-<div id="test"></div>
-<script>
-	var newDiv = document.getElementById('test');
-	newDiv.className = 'my-class';
-	newDiv.style.backgroundColor = 'grey';
-	newDiv.innerHTML = 'test test';
-	
-	var child = document.createElement('span');
-	child.innerHTML = 'new element child';
-	child.style.display = 'block';
-	newDiv.appendChild(child);
-</script>
 
-<ol style="background-color:#ff0000;">
-<li>1</li>
-<li>2</li>
-</ol>
-
-<input type="submit" onclick="submit()" value="doc element">
-<input type="submit" onclick="alert(this.tagName)" value="tagname">
 
 
 <div id="calcParent" class="calc">
@@ -76,102 +115,20 @@ window.onload = function() {}
 	<input id="reset" class="op" type="submit" value="C">
 	<input id="plus" class="op" type="submit" value="+">
 
-	<input type="submit" class="op" value="=" id="result">
+	<input type="submit" class="op" value="=">
 	
 </div>
 <input type="submit" value="delete calc" onclick="removeChildren(document.getElementById('calcParent'))" >
 
-
-<script>
-
-function removeChildren(node) {
-    var children = node.childNodes
-	while(children.length){
-		node.removeChild(children[0])
+<script type="text/javascript">
+	function removeChildren(node) 
+	{
+	    var children = node.childNodes;
+		while(children.length)
+		{
+				node.removeChild(children[0]);
+		}
 	}
-}
-
-
-	var reset = document.getElementById('reset')
-	var result = document.getElementById("result")
-
-	var currentView = document.getElementById('view').value
-	var lastView = Number();
-	var lastOp = '';
-
-	var _view = function (event) {
-		currentView = currentView + this.value;
-		document.getElementById('view').value = currentView;
-		console.log('currentView '+currentView);
-		return false;
-	};
-
-	var _numeric = function (event) {
-		var op = this.value;
-		
-		if (lastView && lastOp) {
-			switch (lastOp) {
-				case ':':
-					currentView = Number(lastView) / Number(currentView);
-					break;
-				case 'x':
-					currentView = Number(lastView) * Number(currentView);
-					break;
-				case '+':
-					currentView = Number(lastView) + Number(currentView);
-					break;
-				case '-':
-					currentView = Number(lastView) - Number(currentView);
-					break;
-				case '=':
-					document.getElementById('view').value = currentView;
-					currentView = '';
-					lastView = '';
-					console.log('lastView '+lastView);
-					console.log('currentView '+currentView);
-					console.log('lastOp '+lastOp);
-					break;
-				};
-
-				lastOp = op;
-				lastView = currentView;
-				currentView = '';
-				document.getElementById('view').value = lastView;
-				console.log('lastView '+lastView);
-				console.log('currentView '+currentView);
-				console.log('lastOp '+lastOp);
-		} 
-		
-		else {
-			lastView = currentView;
-			lastOp = op;
-			currentView = '';
-			document.getElementById('view').value = lastView;
-			console.log('currentView '+currentView);
-			console.log('lastView '+lastView);
-			console.log('lastOp '+lastOp);
-		};
-		return false;
-	};
-	
-	
- 
-	var digits = document.getElementsByClassName('digit');
-	for (var i in digits) {
-		digits[i].onclick = _view;
-	};
-	
-	var operations = document.getElementsByClassName('op');
-	for (i in operations) {
-		var op = operations[i];
-		op.onclick = _numeric;
-	};
-	
-
-
-
-	
-
 </script>
 
 </body>
