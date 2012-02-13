@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript">
+
+
+window.onload = function() {}
+
+
+
+
+</script>
+
+	<style>
+		.calc input{margin-top:5px;margin-left:10px;background-color:#fff;}
+		.calc{margin:20px 0;width:200px;}
+		.calcItem{width:34px;}
+	</style>
+
+
+</head>
+
+
+<body>
+<div id="test"></div>
+<script>
+	var newDiv = document.getElementById('test');
+	newDiv.className = 'my-class';
+	newDiv.style.backgroundColor = 'grey';
+	newDiv.innerHTML = 'test test';
+	
+	var child = document.createElement('span');
+	child.innerHTML = 'new element child';
+	child.style.display = 'block';
+	newDiv.appendChild(child);
+</script>
+
+
+<input type="submit" onclick="submit()" value="doc element">
+<input type="submit" onclick="alert(this.tagName)" value="tagname">
+
+
+<div id="calcParent" class="calc">
+	<input id="view" value="" type="text">
+
+	<input class="digit" type="submit" value="7">
+	<input class="digit" type="submit" value="8">
+	<input class="digit" type="submit" value="9">
+	<input id="devide" class="op" type="submit" value=":">
+
+	<input class="digit" type="submit" value="4">
+	<input class="digit" type="submit" value="5">
+	<input class="digit" type="submit" value="6">
+	<input id="multiply" class="op" type="submit" value="x">
+
+	<input class="digit" type="submit" value="1">
+	<input class="digit" type="submit" value="2">
+	<input class="digit" type="submit" value="3">
+	<input id="minus" class="op" type="submit" value="-">
+
+	<input class="digit" type="submit" value="0">
+	<input class="digit" type="submit" value=".">
+	<input id="reset" class="op" type="submit" value="C">
+	<input id="plus" class="op" type="submit" value="+">
+
+	<input type="submit" class="op" value="=" id="result">
+	
+</div>
+<input type="submit" value="delete calc" onclick="removeChildren(document.getElementById('calcParent'))" >
+
+
+<script type="text/javascript">
+
+function removeChildren(node) {
+    var children = node.childNodes
+	while(children.length){
+		node.removeChild(children[0])
+	}
+}
+
+
+	var reset = document.getElementById('reset')
+	var result = document.getElementById("result")
+
+	var currentView = document.getElementById('view').value
+	var lastView = Number();
+	var lastOp = '';
+
+	var _view = function (event) {
+		currentView = currentView + this.value;
+		document.getElementById('view').value = currentView;
+		console.log('currentView '+currentView);
+		return false;
+	};
+
+	var _numeric = function (event) {
+		var op = this.value;
+		
+		if (lastView && lastOp) {
+			switch (lastOp) {
+				case ':':
+					currentView = Number(lastView) / Number(currentView);
+					break;
+				case 'x':
+					currentView = Number(lastView) * Number(currentView);
+					break;
+				case '+':
+					currentView = Number(lastView) + Number(currentView);
+					break;
+				case '-':
+					currentView = Number(lastView) - Number(currentView);
+					break;
+				case '=':
+					document.getElementById('view').value = currentView;
+					currentView = '';
+					lastView = '';
+					console.log('lastView '+lastView);
+					console.log('currentView '+currentView);
+					console.log('lastOp '+lastOp);
+					break;
+				};
+
+				lastOp = op;
+				lastView = currentView;
+				currentView = '';
+				document.getElementById('view').value = lastView;
+				console.log('lastView '+lastView);
+				console.log('currentView '+currentView);
+				console.log('lastOp '+lastOp);
+		} 
+		
+		else {
+			lastView = currentView;
+			lastOp = op;
+			currentView = '';
+			document.getElementById('view').value = lastView;
+			console.log('currentView '+currentView);
+			console.log('lastView '+lastView);
+			console.log('lastOp '+lastOp);
+		};
+		return false;
+	};
+	
+	
+ 
+	var digits = document.getElementsByClassName('digit');
+	for (var i in digits) {
+		digits[i].onclick = _view;
+	};
+	
+	var operations = document.getElementsByClassName('op');
+	for (i in operations) {
+		var op = operations[i];
+		op.onclick = _numeric;
+	};
+	
+
+
+
+	
+
+</script>
+
+</body>
+
+</html>
