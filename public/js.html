@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="utf-8">
+<script type="text/javascript" src="javascripts/jquery-1.7.1.min.js"></script>
 <script type="text/javascript">
 
+$('document').ready(function() {
 
-window.onload = function() {
+	$('form :submit').css("background","#f0b7a1");	
 
-		var currentView = getId('view').value
+	function mouseShowHandler(e){
+		e = e || window.event
+		
+		//for IE
+		if (e.pageX == null && e.clientX != null ) { 
+			var html = document.documentElement;
+			var body = document.body
+
+			e.pageX = e.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
+			e.pageY = e.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
+		}
+		
+		//all browsers
+		var ArgMouseX = $('#mouseX');
+		var ArgMouseY = $('#mouseY');
+
+		ArgMouseX.css('width','50px');//как дописать дополнитеьные стили
+		ArgMouseY.css('width','50px');
+		
+		ArgMouseX.val(e.pageX);
+		ArgMouseY.val(e.pageY);
+	}
+	
+	$('body').mousemove(mouseShowHandler);
+
+
+		var currentView = $('#view').val();
 		var lastView = Number();
 		var lastOp = '';
 
@@ -74,7 +102,7 @@ window.onload = function() {
 		};
 
 	
-}
+});
 
 </script>
 
@@ -92,7 +120,13 @@ window.onload = function() {
 
 
 
-<div id="calcParent" class="calc">
+
+<input type="text" id="mouseX" value="" >
+<input type="text" id="mouseY" value="">
+
+<input type="button" class="event." value="look mouseX/mouseY" onclick="" />
+
+<form id="calcParent" class="calc">
 	<input id="view" value="" type="text">
 
 	<input class="digit" type="submit" value="7">
@@ -117,7 +151,7 @@ window.onload = function() {
 
 	<input type="submit" class="op" value="=">
 	
-</div>
+</form>
 <input type="submit" value="delete calc" onclick="removeChildren(document.getElementById('calcParent'))" >
 
 <script type="text/javascript">

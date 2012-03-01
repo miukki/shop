@@ -1,48 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="javascripts/jquery-1.7.1.min.js"></script>
 
-  <script>
+	<script type="text/javascript">
+	
+		window.onload = function() {}
+		
+		
+		$('document').ready(function() {
+			var allInputs = $('form > input');
+		    var formChildren = $('form > *');
+		    $("#messages").text("Found " + allInputs.length + " inputs and the form has " + formChildren.length + " children.");
+		    // зачем это делать? это нужно если есть в form type="submit" ?
+		    $("form").submit(function () { return false; }); 
 
 
-function go() {        
-	var ol = document.getElementsByTagName('ol')[0]        
-	var hit = ol.removeChild(ol.firstChild)        
-	var kov = ol.removeChild(ol.firstChild)        
-	ol.appendChild(kov)        
-	ol.appendChild(hit)
-}
-
-window.onload = function() {}
-
-
-
-
-    </script>
+		   $('#link').click(function(event){
+		     event.preventDefault();
+			 $(this).hide("slow");
+		   });
+		
+		
+			
+		});
+	
+	</script>
 
 	<style>
 		.calc input{margin-top:5px;margin-left:10px;background-color:#fff;}
 		.calc{margin:20px 0;width:200px;}
 		.calcItem{width:34px;}
 	</style>
-
-
+	
 </head>
 
 
 <body>
+
+<a href="http://docs.jquery.com/How_jQuery_Works#jQuery:_The_Basics" id="link">Click Me</a>
+	<form>
+	  <input type="button" value="Input Button"/>
+	  <input type="checkbox" />
+
+	  <input type="file" />
+	  <input type="hidden" />
+	  <input type="image" />
+
+	  <input type="password" />
+	  <input type="radio" />
+	  <input type="reset" />
+
+	  <input type="submit" />
+	  <input type="text" />
+	  <select><option>Option</option></select>
+
+	  <textarea></textarea>
+	  <button>Button</button>
+	</form>
+
+	<div id="messages"></div>
+
+
+
+<input style="width:50px;background-color:#efefef;" type="text" id="mouseX">
+<input style="width:50px;background-color:#efefef;" type="text" id="mouseY">
+
 <div id="test"></div>
-<script>
-	var newDiv = document.getElementById('test');
-	newDiv.className = 'my-class';
-	newDiv.style.backgroundColor = 'grey';
-	newDiv.innerHTML = 'test test';
-	
-	var child = document.createElement('span');
-	child.innerHTML = 'new element child';
-	child.style.display = 'block';
-	newDiv.appendChild(child);
-</script>
 
 <ol style="background-color:#ff0000;">
 <li>1</li>
@@ -81,12 +106,8 @@ window.onload = function() {}
 </div>
 <input type="submit" value="delete calc" onclick="removeChildren(document.getElementById('calcParent'))" >
 
-
-
-
-<div style="background-color:#ff0000;padding:5px;width:200px;" class="d1" 
-  onclick="view(event)">
-<span class="number">1</span>
+<div style="background-color:#ff0000;padding:5px;width:200px;" class="d1" onmouseover="mouseoverHandler(event)" onmouseout="mouseoutHandler(event)" >
+	<span class="number">1</span>
     <div class="d2" style="background-color:green;padding:5px;">
         <span class="number">2</span>
         <div class="d3" style="background-color:blue;padding:5px;">
@@ -96,105 +117,66 @@ window.onload = function() {}
     </div>
 </div>
 
-<script>
-function view(event){
-	event = event || window.event
-	t= event.target || event.srcElement;
-	alert(t.className);
-}
-</script>
 
 <script>
+	
+	function mouseShowHandler(e){
+		e = e || window.event
 
-function removeChildren(node) {
-    var children = node.childNodes
-	while(children.length){
-		node.removeChild(children[0])
+		if (e.pageX == null && e.clientX != null ) { 
+			var html = document.documentElement;
+			var body = document.body;
+			e.pageX = e.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0);
+			e.pageY = e.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0);
+		}
+
+		$('#mouseX').val(e.pageX);
+		$('#mouseY').val(e.pageY);
 	}
-}
-
-
-	var reset = document.getElementById('reset')
-	var result = document.getElementById("result")
-
-	var currentView = document.getElementById('view').value
-	var lastView = Number();
-	var lastOp = '';
-
-	var _view = function (event) {
-		currentView = currentView + this.value;
-		document.getElementById('view').value = currentView;
-		console.log('currentView '+currentView);
-		return false;
-	};
-
-	var _numeric = function (event) {
-		var op = this.value;
-		
-		if (lastView && lastOp) {
-			switch (lastOp) {
-				case ':':
-					currentView = Number(lastView) / Number(currentView);
-					break;
-				case 'x':
-					currentView = Number(lastView) * Number(currentView);
-					break;
-				case '+':
-					currentView = Number(lastView) + Number(currentView);
-					break;
-				case '-':
-					currentView = Number(lastView) - Number(currentView);
-					break;
-				case '=':
-					document.getElementById('view').value = currentView;
-					currentView = '';
-					lastView = '';
-					console.log('lastView '+lastView);
-					console.log('currentView '+currentView);
-					console.log('lastOp '+lastOp);
-					break;
-				};
-
-				lastOp = op;
-				lastView = currentView;
-				currentView = '';
-				document.getElementById('view').value = lastView;
-				console.log('lastView '+lastView);
-				console.log('currentView '+currentView);
-				console.log('lastOp '+lastOp);
-		} 
-		
-		else {
-			lastView = currentView;
-			lastOp = op;
-			currentView = '';
-			document.getElementById('view').value = lastView;
-			console.log('currentView '+currentView);
-			console.log('lastView '+lastView);
-			console.log('lastOp '+lastOp);
-		};
-		return false;
-	};
+	$('body').mousemove(mouseShowHandler);
 	
 	
- 
-	var digits = document.getElementsByClassName('digit');
-	for (var i in digits) {
-		digits[i].onclick = _view;
-	};
 	
-	var operations = document.getElementsByClassName('op');
-	for (i in operations) {
-		var op = operations[i];
-		op.onclick = _numeric;
-	};
+	function view(event){
+		event = event || window.event
+		var t = event.target || event.srcElement;
+		alert(t.className);
+	}
+
+	function mouseoverHandler(event) {
+		event = event || window.event
+		var relatedTarget = event.relatedTarget || event.fromElement
+		console.log(relatedTarget);
+		// relatedTarget - элемент, с которого пришел курсор мыши
+	}
+
+	function mouseoutHandler(event) {
+		event = event || window.event
+		var relatedTarget = event.relatedTarget || event.toElement
+		console.log(relatedTarget);
+		// relatedTarget - элемент, на который перешел курсор мыши
+	}
 	
 
+	function removeChildren(node) {
+	    var children = node.childNodes;
+		while(children.length) node.removeChild(children[0]);
+	}
 
+
+	var newDiv = document.getElementById('test');
+	newDiv.className = 'my-class';
+	newDiv.style.backgroundColor = 'grey';
+	newDiv.innerHTML = 'test test';
+	
+	var child = document.createElement('span');
+	child.innerHTML = 'new element child';
+	child.style.display = 'block';
+	newDiv.appendChild(child);
 
 	
-
 </script>
+
 
 </body>
 
