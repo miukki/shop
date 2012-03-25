@@ -6,7 +6,36 @@
 <script type="text/javascript">
 
 $('document').ready(function() {
-
+	
+	var view_submit =  function(){
+		var strin = $('input[value|=\'Submit\']');
+		$('#result_str').html(strin);
+		console.log(strin);
+	};
+	
+	var view_radio_checkbox = function(){
+		var radio_checkbox = [];
+		var len = $('input').length;
+		var inputs = $('input'); 
+			for(var j = 0; j<len; j++){
+			 var type = inputs[j].type;
+				if(type == 'radio'){
+					radio_checkbox.push(inputs[j]);
+					};
+				
+		  	};
+		//var str_checkbox = radio_checkbox.html();
+		//$('#view_radio_checkbox').html(str_checkbox).css({'background':'red'});
+	}
+	var view_radio_checkbox_querySelectorAll = function(){
+		var el = document.querySelectorAll("input[type='radio'],input[type='checkbox']")
+		$('#querySelectorAll_radio_checkbox').html(el).css({'background':'yellow'});
+	};
+	
+	$('#view_submit').click(view_submit);
+	$('#click_radio_checkbox').click(view_radio_checkbox);
+	$('#querySelectorAll_submit').click(view_radio_checkbox_querySelectorAll);
+	
 	$('form :submit').css("background","#f0b7a1");	
 
 	function mouseShowHandler(e){
@@ -16,7 +45,6 @@ $('document').ready(function() {
 		if (e.pageX == null && e.clientX != null ) { 
 			var html = document.documentElement;
 			var body = document.body
-
 			e.pageX = e.clientX + (html && html.scrollLeft || body && body.scrollLeft || 0) - (html.clientLeft || 0)
 			e.pageY = e.clientY + (html && html.scrollTop || body && body.scrollTop || 0) - (html.clientTop || 0)
 		}
@@ -117,12 +145,47 @@ $('document').ready(function() {
 
 
 <body>
+<input id="view_submit" type="submit" value="показать все value=submit">
+<p id="result_str"></p>
+показать сколько checkbox и radio input(с) на странице <input type="submit" value="Submit" id="click_radio_checkbox" >
+<div id="view_radio_checkbox"></div>
+<p>querySelectorAll <input type="submit" value="показать" id="querySelectorAll_submit" ></p>
+<div id="querySelectorAll_radio_checkbox"></div>
 
 
+<div class="block"></div>
+   <div class="block"></div>
+   <div class="block"></div>
+   <div class="block"></div>
+   <div class="block"></div>
+
+   <div id="a1">
+       <input type="radio">
+       <input type="radio">
+       <input type="radio">
+       <input type="radio">
+       <input type="radio">
+   </div>
+
+   <div id="a2">
+       <input type="checkbox">
+       <input type="checkbox">
+       <input type="checkbox">
+       <input type="checkbox">
+       <input type="checkbox">
+   </div>
+
+   <div id="a3">
+       <input type="text">
+       <input type="text">
+       <input type="text">
+       <input type="text">
+       <input type="text">
+   </div>
 
 
-<input type="text" id="mouseX" value="" >
-<input type="text" id="mouseY" value="">
+<input type="text" id="mouseX" value="Submit" >
+<input type="text" id="mouseY" value="Submit">
 
 <input type="button" class="event." value="look mouseX/mouseY" onclick="" />
 

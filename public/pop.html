@@ -7,36 +7,69 @@
 
 	<script type="text/javascript">
 	
-		//все же  расскажи еще раз 
 		window.onload = function() {}
 		
-		
 		$('document').ready(function() {
-			
-			
+
+			var val = new Number();
+			val = 10;
+
+			var _renderPopup = function (object) {
+				//object.find('#close');
+			};
+						
 			$('#btn-pop').click(function(event){
 				event.preventDefault();
-				$('#elem').append(funtction(pop-item, html){ return html;})
+				var newdiv1 = $('<div id="pop" class="well abs lessm"><a id="close" class="close">&times;</a>hello!</div>');
+				var offset;
+				offset = newdiv1.offset();
+				newdiv1.css({'left': offset.left + val, 'top': offset.top + val});
+				$('#pops').append(newdiv1).fadeIn('slow');
+				val = val + 10
+				//close
+				newdiv1.find('#close').click(function(event){
+					event.preventDefault();
+					var parent;
+					parent = $(this).parent();
+					parent.animate({opacity: 0.0}, 'fast', function(){
+						parent.detach();
+					});
+				});
+				
+				_renderPopup(newdiv1);
+				
+				
+				newdiv1.mousedown(function(e){
+					console.log("mousedown x " + e.pageX + " y " + e.pageY);
+					var ofsX = e.pageX - $(this).offset().left;
+					var ofsY = e.pageY - $(this).offset().top;
+					var main = $('#main');
+					
+					var mouseMoveHandler = function(e){
+						console.log("mousemove x " + e.pageX + " y " + e.pageY);
+						newdiv1.css({'left': e.pageX - ofsX, 'top': e.pageY - ofsY});
+					};	
+				
+					main.mousemove(mouseMoveHandler);
+					main.mouseup(function(){
+						main.unbind('mousemove', mouseMoveHandler);
+					})
+				});
 			});
+			
+			
 			
 			$('#btn_hide').click(function(event){
 				event.preventDefault();
 				$('.form-actions').animate({opacity: 0.0}, 'slow');
 			});
 
-			$('#close').click(function(event){
-				var currentPop = $(this).parent();
-				currentPop.animate({opacity: 0.0}, 'slow', function(){});
-			});
-			
-			
 			
 			$('#clickme').click(function() {
 			  $('.form-actions').animate({height: ['toggle', 'swing'], opacity: 'toggle'}, 'fast', 'linear', function(){});
 			});
 
-			    //$('body').append('<div>' + data + '</div>');
-			
+
 		});
 	
 	</script>
@@ -44,14 +77,14 @@
 </head>
 
 <body>
+<div id="main" style="background-color: yellow; width: 100%; height: 100%; position: absolute;">
+
 
 <div class="form-actions lessm">
      <a id="btn-pop" class="btn btn-primary" type="submit">Create pop</a>
      <a id="btn_hide" class="btn">Hide all pops</a>
 </div>
-
-<div id="elem"></div>
-
+<div id="pops"></div>
 
 <ul style="display:none;width:200px;margin:20px;" class="nav nav-pills nav-stacked">
         <li class="active"><a href="#">Home</a></li>
@@ -61,6 +94,7 @@
 
 <a style="margin-left:20px;position:absolute;bottom:20px;" id="clickme" class="btn btn-primary" type="submit">Убрать панель</a>
 
+</div>
 </body>
 
 </html>
