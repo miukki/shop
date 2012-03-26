@@ -13,7 +13,8 @@
 
 			var val = new Number();
 			val = 10;
-
+			var num = new Number();
+			num = 0;
 			var _renderPopup = function (object) {
 				//object.find('#close');
 			};
@@ -25,7 +26,10 @@
 				offset = newdiv1.offset();
 				newdiv1.css({'left': offset.left + val, 'top': offset.top + val});
 				$('#pops').append(newdiv1).fadeIn('slow');
-				val = val + 10
+				num = ++num;
+				$(this).attr('value','Create pop '+num);
+				//$('this[value|=\'Create pop\'+'+num']');
+				val = val + 10;
 				//close
 				newdiv1.find('#close').click(function(event){
 					event.preventDefault();
@@ -81,7 +85,7 @@
 
 
 <div class="form-actions lessm">
-     <a id="btn-pop" class="btn btn-primary" type="submit">Create pop</a>
+     <input id="btn-pop" class="btn btn-primary" type="submit" value="Create pop">
      <a id="btn_hide" class="btn">Hide all pops</a>
 </div>
 <div id="pops"></div>
