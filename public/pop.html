@@ -28,10 +28,12 @@
 				$('#pops').append(newdiv1).fadeIn('slow');
 				num = ++num;
 				$(this).attr('value','Create pop '+num);
-				//$('this[value|=\'Create pop\'+'+num']');
+				//не работает этот вариант $('#btn-pop[value|='+num+'test');
 				val = val + 10;
 				//close
 				newdiv1.find('#close').click(function(event){
+					num = num - 1;
+					$(this).parent.attr('value','Create pop '+num);
 					event.preventDefault();
 					var parent;
 					parent = $(this).parent();
@@ -44,13 +46,13 @@
 				
 				
 				newdiv1.mousedown(function(e){
-					console.log("mousedown x " + e.pageX + " y " + e.pageY);
+					//console.log("mousedown x " + e.pageX + " y " + e.pageY);
 					var ofsX = e.pageX - $(this).offset().left;
 					var ofsY = e.pageY - $(this).offset().top;
 					var main = $('#main');
 					
 					var mouseMoveHandler = function(e){
-						console.log("mousemove x " + e.pageX + " y " + e.pageY);
+						//console.log("mousemove x " + e.pageX + " y " + e.pageY);
 						newdiv1.css({'left': e.pageX - ofsX, 'top': e.pageY - ofsY});
 					};	
 				
